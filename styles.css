@@ -1,0 +1,323 @@
+:root {
+  color-scheme: dark;
+  --page: #06070a;
+  --panel: #111820;
+  --panel-2: #18242a;
+  --line: #34434a;
+  --text: #f4f0df;
+  --muted: #9caeac;
+  --gold: #f2c14e;
+  --red: #e84a4a;
+  --green: #51c878;
+  --cyan: #4ab4d8;
+  --shadow: rgba(0, 0, 0, 0.42);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--text);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 42%),
+    radial-gradient(circle at 12% 18%, rgba(232, 74, 74, 0.18), transparent 30%),
+    linear-gradient(135deg, #050607 0%, #0d1518 54%, #07080b 100%);
+  overflow: hidden;
+}
+
+button,
+label {
+  font: inherit;
+}
+
+.appShell {
+  display: grid;
+  grid-template-columns: minmax(156px, 190px) minmax(0, 1fr);
+  min-height: 100%;
+}
+
+.hudPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 18px 14px;
+  background: linear-gradient(180deg, rgba(17, 24, 32, 0.96), rgba(8, 12, 15, 0.96));
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 16px 0 36px var(--shadow);
+  z-index: 3;
+}
+
+.brandBlock {
+  display: grid;
+  gap: 2px;
+}
+
+.brandKicker {
+  color: var(--cyan);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  color: var(--gold);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 28px;
+  line-height: 0.92;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.scoreStack {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid rgba(242, 193, 78, 0.26);
+  border-radius: 8px;
+  background: #0a0e11;
+  box-shadow: inset 0 0 18px rgba(242, 193, 78, 0.06);
+}
+
+.scoreLabel,
+.statGrid span {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.scoreValue {
+  color: #f9f3cf;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 30px;
+  line-height: 1;
+  text-shadow: 0 0 10px rgba(242, 193, 78, 0.32);
+}
+
+.statGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.statGrid div {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  padding: 8px;
+  border-radius: 6px;
+  background: var(--panel-2);
+}
+
+.statGrid output {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.buttonGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.commandButton,
+.iconButton {
+  display: inline-grid;
+  place-items: center;
+  min-height: 38px;
+  min-width: 0;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  color: var(--text);
+  background: linear-gradient(180deg, #26343c, #152027);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.24);
+  cursor: pointer;
+}
+
+.commandButton:hover,
+.iconButton:hover {
+  border-color: rgba(242, 193, 78, 0.62);
+}
+
+.commandButton:active,
+.iconButton:active,
+.commandButton.isPressed,
+.touchButton.isPressed {
+  transform: translateY(1px);
+  filter: brightness(1.18);
+}
+
+.commandButton.accent {
+  color: #160f05;
+  border-color: #ffd76a;
+  background: linear-gradient(180deg, #ffd76a, #c9882b);
+}
+
+.fileButton {
+  position: relative;
+  overflow: hidden;
+}
+
+.fileButton input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.iconButton {
+  padding: 0;
+  color: var(--green);
+  font-size: 20px;
+}
+
+.iconButton[aria-pressed="true"] {
+  border-color: rgba(81, 200, 120, 0.68);
+  background: linear-gradient(180deg, #1d3b2a, #13241d);
+}
+
+.assetStatus {
+  min-height: 34px;
+  margin-top: auto;
+  padding: 9px 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 7px;
+  color: var(--muted);
+  background: rgba(0, 0, 0, 0.24);
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.playfieldShell {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  min-height: 100vh;
+  padding: clamp(10px, 2.2vw, 28px);
+}
+
+.canvasFrame {
+  position: relative;
+  display: grid;
+  place-items: center;
+  --frame-aspect: 1.4423;
+  width: min(calc(100vw - 226px), calc((100vh - 48px) * var(--frame-aspect)));
+  max-width: 1120px;
+  min-width: 320px;
+  aspect-ratio: var(--frame-aspect);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  background: #020304;
+  box-shadow:
+    0 26px 70px rgba(0, 0, 0, 0.56),
+    0 0 0 1px rgba(242, 193, 78, 0.08) inset;
+  overflow: hidden;
+}
+
+.canvasFrame.isDropTarget {
+  border-color: var(--gold);
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+}
+
+.touchControls {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  left: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 1fr;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.touchButton {
+  min-height: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 7px;
+  color: var(--text);
+  background: rgba(9, 13, 16, 0.62);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.32);
+  pointer-events: auto;
+}
+
+.touchButton.plunger {
+  color: #1d1304;
+  border-color: rgba(242, 193, 78, 0.8);
+  background: rgba(242, 193, 78, 0.82);
+}
+
+@media (min-width: 760px) {
+  .touchControls {
+    display: none;
+  }
+}
+
+@media (max-width: 720px) {
+  body {
+    overflow: auto;
+  }
+
+  .appShell {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    min-height: 100%;
+  }
+
+  .hudPanel {
+    position: sticky;
+    top: 0;
+    display: grid;
+    grid-template-columns: minmax(118px, 0.8fr) minmax(142px, 1fr);
+    gap: 10px;
+    padding: 10px;
+    border-right: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .scoreStack,
+  .buttonGrid,
+  .assetStatus {
+    grid-column: span 2;
+  }
+
+  h1 {
+    font-size: 22px;
+  }
+
+  .playfieldShell {
+    min-height: auto;
+    padding: 10px;
+    place-items: start center;
+  }
+
+  .canvasFrame {
+    width: min(100%, calc((100vh - 258px) * var(--frame-aspect)));
+    min-width: 0;
+  }
+}
