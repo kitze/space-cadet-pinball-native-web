@@ -248,8 +248,9 @@ export class PinballGame {
       return;
     }
 
-    this.ball.x += hit.normal.x * Math.min(10, hit.hits * 0.55);
-    this.ball.y += hit.normal.y * Math.min(10, hit.hits * 0.55);
+    const penetration = Math.max(0.5, hit.penetration ?? 1);
+    this.ball.x += hit.normal.x * Math.min(14, penetration + 0.5);
+    this.ball.y += hit.normal.y * Math.min(14, penetration + 0.5);
     const impact = reflectVelocity(this.ball, hit.normal, hit.kind === "post" ? 0.88 : 0.76, hit.kind === "post" ? 85 : 0);
     if (impact > 22 && this.registerHit(`mask:${Math.round(hit.x / 24)}:${Math.round(hit.y / 24)}`, hit.kind === "post" ? 0.2 : 0.08)) {
       this.score += hit.kind === "post" ? 25 : 3;

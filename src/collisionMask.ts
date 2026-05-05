@@ -8,6 +8,7 @@ export class CollisionMask {
     this.width = 0;
     this.height = 0;
     this.data = null;
+    this.solid = null;
     this.load();
   }
 
@@ -24,13 +25,20 @@ export class CollisionMask {
       this.width = canvas.width;
       this.height = canvas.height;
       this.data = imageData.data;
+      this.solid = new Uint8Array(this.width * this.height);
+      for (let y = 0; y < this.height; y += 1) {
+        for (let x = 0; x < this.width; x += 1) {
+          const kind = this.pixelKindFromData(x, y);
+          this.solid[y * this.width + x] = kind ? 1 : 0;
+        }
+      }
       this.ready = true;
     };
     image.src = this.src;
   }
 
-  pixelKind(x, y) {
-    if (!this.ready || x < 0 || y < 0 || x >= this.width || y >= this.height) {
+  pixelKindFromData(x, y) {
+    if (x < 0 || y < 0 || x >= this.width || y >= this.height) {
       return null;
     }
     const ix = Math.round(x);
@@ -58,49 +66,69 @@ export class CollisionMask {
     return "rail";
   }
 
+  pixelKind(x, y) {
+    if (!this.ready) {
+      return null;
+    }
+    return this.pixelKindFromData(x, y);
+  }
+
   collide(ball) {
     if (!this.ready) {
       return null;
     }
 
-    const samples = 40;
-    let nx = 0;
-    let ny = 0;
-    let hits = 0;
+    const searchRadius = Math.ceil(ball.radius + 4);
+    const minX = Math.max(0, Math.floor(ball.x - searchRadius));
+    const maxX = Math.min(this.width - 1, Math.ceil(ball.x + searchRadius));
+    const minY = Math.max(0, Math.floor(ball.y - searchRadius));
+    const maxY = Math.min(this.height - 1, Math.ceil(ball.y + searchRadius));
+    const radiusSq = ball.radius * ball.radius;
+    let closest = null;
+    let closestDistSq = Infinity;
     let kind = "rail";
-    for (let i = 0; i < samples; i += 1) {
-      const angle = (i / samples) * Math.PI * 2;
-      const sx = ball.x + Math.cos(angle) * ball.radius;
-      const sy = ball.y + Math.sin(angle) * ball.radius;
-      const pixelKind = this.pixelKind(sx, sy);
-      if (!pixelKind) {
-        continue;
-      }
-      nx += ball.x - sx;
-      ny += ball.y - sy;
-      hits += 1;
-      if (pixelKind === "post" || pixelKind === "flipper") {
-        kind = pixelKind;
-      } else if (pixelKind === "dead") {
-        kind = "dead";
+
+    for (let y = minY; y <= maxY; y += 1) {
+      for (let x = minX; x <= maxX; x += 1) {
+        if (!this.solid[y * this.width + x]) {
+          continue;
+        }
+        const dx = ball.x - x;
+        const dy = ball.y - y;
+        const distSq = dx * dx + dy * dy;
+        if (distSq > radiusSq || distSq >= closestDistSq) {
+          continue;
+        }
+        closestDistSq = distSq;
+        closest = { x, y };
       }
     }
 
-    if (!hits) {
+    if (!closest) {
       return null;
     }
 
-    const normal = normalize(nx, ny);
+    for (let y = Math.max(0, closest.y - 1); y <= Math.min(this.height - 1, closest.y + 1); y += 1) {
+      for (let x = Math.max(0, closest.x - 1); x <= Math.min(this.width - 1, closest.x + 1); x += 1) {
+        const pixelKind = this.pixelKind(x, y);
+        if (pixelKind === "post" || pixelKind === "flipper" || pixelKind === "dead") {
+          kind = pixelKind;
+        }
+      }
+    }
+
+    const dist = Math.sqrt(closestDistSq);
+    const normal = normalize(ball.x - closest.x, ball.y - closest.y);
     if (normal.mag <= 1e-7) {
       return null;
     }
 
     return {
       kind,
-      hits,
+      penetration: ball.radius - dist,
       normal,
-      x: ball.x - normal.x * ball.radius,
-      y: ball.y - normal.y * ball.radius,
+      x: closest.x,
+      y: closest.y,
     };
   }
 }
