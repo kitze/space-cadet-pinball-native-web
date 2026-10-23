@@ -198,7 +198,7 @@ No\-WASM native web prototype of Space Cadet Pinball with TypeScript, Canvas, an
   </tr>
   <tr>
     <td width="33%" valign="top">
-      <a href="https://synteq.com/?ref=kitze%2Fspace-cadet-pinball-native-web"><img src="https://synteq.com/assets/og_embed.png" width="40" alt="Synteq logo"></a><br>
+      <a href="https://synteq.com/?ref=kitze%2Fspace-cadet-pinball-native-web"><img src="https://media.gifs.so/sponsors/kitze-io/synteq.png" width="40" alt="Synteq logo"></a><br>
       <strong><a href="https://synteq.com/?ref=kitze%2Fspace-cadet-pinball-native-web">Synteq</a></strong><br>
       The cloud, built for developers.
     </td>
