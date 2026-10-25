@@ -202,7 +202,12 @@ No\-WASM native web prototype of Space Cadet Pinball with TypeScript, Canvas, an
       <strong><a href="https://synteq.com/?ref=kitze%2Fspace-cadet-pinball-native-web">Synteq</a></strong><br>
       The cloud, built for developers.
     </td>
-    <td width="67%" colspan="2" valign="top">
+    <td width="33%" valign="top">
+      <a href="https://kraken.io/?ref=kitze%2Fspace-cadet-pinball-native-web"><img src="https://assets.kraken.io/assets/images/media-kit/logotypes/downloads/krakenio-horizontal-full.png" width="40" alt="Kraken.io logo"></a><br>
+      <strong><a href="https://kraken.io/?ref=kitze%2Fspace-cadet-pinball-native-web">Kraken.io</a></strong><br>
+      We optimize your images, to save you bandwidth, make your websites faster, make your customers less frustrated, and reduce your CDN costs.
+    </td>
+    <td width="33%" valign="top">
       <strong><a href="https://www.kitze.io/sponsors?ref=kitze%2Fspace-cadet-pinball-native-web">Your product here</a></strong><br>
       Reach developers in every kitze repo.
     </td>
